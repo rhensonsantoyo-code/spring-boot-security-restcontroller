@@ -19,7 +19,6 @@ public class ProfileController {
 
     @GetMapping({"/", "/user"})
     public String me(@AuthenticationPrincipal UserDetails principal, Model model) {
-        // If unauthenticated, Spring Security will already redirect to /login via your config.
         if (principal == null) {
             return "redirect:/login";
         }
@@ -27,7 +26,6 @@ public class ProfileController {
         User u = users.findByEmail(principal.getUsername()).orElse(null);
         model.addAttribute("user", u);
 
-        // MUST match templates/user/info.html
         return "user/info";
     }
 }
