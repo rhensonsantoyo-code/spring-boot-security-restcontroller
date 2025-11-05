@@ -45,9 +45,9 @@ public class UserController {
                          @RequestParam(value = "roleNames", required = false) List<String> roleNames,
                          Model model) {
 
-        users.findByEmail(user.getEmail().trim()).ifPresent(existing -> {
-            br.addError(new FieldError("user", "email", "This email is already taken"));
-        });
+        users.findByEmail(user.getEmail().trim()).ifPresent(existing ->
+                br.addError(new FieldError("user", "email", "This email is already taken"))
+        );
 
         if (br.hasErrors()) {
             model.addAttribute("roles", users.allRoles());

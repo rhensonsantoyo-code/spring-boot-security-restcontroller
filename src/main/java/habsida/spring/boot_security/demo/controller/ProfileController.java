@@ -13,19 +13,14 @@ public class ProfileController {
 
     private final UserService users;
 
-    public ProfileController(UserService users) {
-        this.users = users;
-    }
+    public ProfileController(UserService users) { this.users = users; }
 
     @GetMapping({"/", "/user"})
     public String me(@AuthenticationPrincipal UserDetails principal, Model model) {
-        if (principal == null) {
-            return "redirect:/login";
+        if (principal != null) {
+            User u = users.findByEmail(principal.getUsername()).orElse(null);
+            model.addAttribute("user", u);
         }
-
-        User u = users.findByEmail(principal.getUsername()).orElse(null);
-        model.addAttribute("user", u);
-
         return "user/info";
     }
 }
